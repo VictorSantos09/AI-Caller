@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiCaller.UI", "AiCaller.UI\AiCaller.UI.csproj", "{54163888-8C69-4945-BAEE-AD21D68BBCFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AICaller", "AICaller\AICaller.csproj", "{4CE56D1A-BF46-732A-1A3C-79C950586951}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54163888-8C69-4945-BAEE-AD21D68BBCFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54163888-8C69-4945-BAEE-AD21D68BBCFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54163888-8C69-4945-BAEE-AD21D68BBCFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54163888-8C69-4945-BAEE-AD21D68BBCFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CE56D1A-BF46-732A-1A3C-79C950586951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE56D1A-BF46-732A-1A3C-79C950586951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE56D1A-BF46-732A-1A3C-79C950586951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE56D1A-BF46-732A-1A3C-79C950586951}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8542F409-90CB-4A30-8AE4-C34135C5343E}
+	EndGlobalSection
+EndGlobal

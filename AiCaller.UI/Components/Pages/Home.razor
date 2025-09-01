@@ -1,0 +1,102 @@
+﻿@inject IChatService ChatService
+@rendermode InteractiveServer
+
+@page "/"
+@using AICaller
+
+<PageTitle>Chat</PageTitle>
+
+<h1>Chat</h1>
+
+<div class="chat-container" style="max-width:600px;margin:auto;">
+    <div class="chat-messages" style="height:400px;overflow-y:auto;border:1px solid #ccc;padding:10px;background:#f9f9f9;" @ref="chatMessagesDiv">
+        @foreach (var message in messages)
+        {
+            var isUser = message.Role == Role.User;
+            var isAI = message.Role == Role.AI;
+            var isError = message.Role == Role.Error;
+            <div class="chat-message" style="margin-bottom:10px; display:flex; justify-content:@(isUser ? "flex-end" : "flex-start");">
+                <div style="max-width:70%;padding:8px;border-radius:10px; background:@(isUser ? "#d1e7dd" : isAI ? "#e2e3e5" : "#f8d7da"); color:#222; text-align:@(isUser ? "right" : "left");">
+                    <strong>@(isUser ? "Você" : isAI ? "IA" : "Erro")</strong> @message.Text
+                </div>
+            </div>
+        }
+    </div>
+    <div class="chat-input" style="display:flex;margin-top:10px;">
+        <input @bind="newMessage" @bind:event="oninput" placeholder="Digite sua mensagem..." class="form-control" style="flex:1;margin-right:10px;" @onkeydown=HandleKeyDown />
+        <button class="btn btn-primary" @onclick="SendMessage" @onclick:preventDefault>Enviar</button>
+    </div>
+</div>
+
+@code {
+
+    private List<ChatMessage> messages = new();
+    private string newMessage = string.Empty;
+    private ElementReference chatMessagesDiv;
+    [Inject] private IJSRuntime? JS { get; set; }
+
+    protected override void OnInitialized()
+    {
+        ChatService.Prepare();
+    }
+
+    public async Task SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(newMessage))
+        {
+            string prompt = newMessage;
+            newMessage = string.Empty;
+
+            messages.Add(new ChatMessage { Role = Role.User, Text = prompt });
+            StateHasChanged();
+            await ScrollToBottomAsync();
+            try
+            {
+                var aiMsg = new ChatMessage { Role = Role.AI, Text = string.Empty };
+                messages.Add(aiMsg);
+                await ScrollToBottomAsync();
+                await foreach (string response in ChatService.Talk(prompt))
+                {
+                    aiMsg.Text += response;
+                    StateHasChanged();
+                    await ScrollToBottomAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                messages.Add(new ChatMessage { Role = Role.Error, Text = ex.Message });
+                Console.WriteLine(ex.Message);
+                await ScrollToBottomAsync();
+            }
+        }
+    }
+
+    private async Task ScrollToBottomAsync()
+    {
+        if (JS != null)
+        {
+            await JS.InvokeVoidAsync("scrollToBottom", chatMessagesDiv);
+        }
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SendMessage();
+        }
+    }
+
+    class ChatMessage
+    {
+        public Role Role { get; set; }
+        public string? Text { get; set; }
+    }
+
+    enum Role
+    {
+        User,
+        AI,
+        Error
+    }
+}

@@ -1,0 +1,21 @@
+services:
+  ollama:
+    container_name: aicaller-ollama
+    build:
+      context: .
+      dockerfile: Ollama.Dockerfile
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+  ui:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: aicaller-ui
+    ports:
+      - "7044:7044"
+    depends_on:
+      - ollama
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:7044
+    restart: unless-stopped

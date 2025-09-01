@@ -1,0 +1,27 @@
+# Visual Studio
+.vs/
+# Build results
+[Bb]in/
+[Oo]bj/
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+# NuGet
+*.nupkg
+packages/
+# Visual Studio Code
+.vscode/
+# Others
+*.log
+*.DS_Store
+Thumbs.db
+*.dbmdl
+*.pdb
+*.cache
+*.ide
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
